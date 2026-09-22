@@ -56,6 +56,6 @@ public class TextAnalyzer {
             }
         }
         // TODO: implement using the stack described above
-        return true; // replace this line
+        return true;
     }
 }
