@@ -28,7 +28,7 @@ public class DesignAnalysis {
     public static int addWithoutTailCost() {
         // Justification:
         // (write your reasoning here)
-        return -1; // replace with the correct option number
+        return 3; // replace with the correct option number
     }
 
     /**
@@ -44,7 +44,7 @@ public class DesignAnalysis {
     public static int addWithTailCost() {
         // Justification:
         // (write your reasoning here)
-        return -1; // replace with the correct option number
+        return 1; // replace with the correct option number
     }
 
     /**
@@ -66,6 +66,6 @@ public class DesignAnalysis {
         // workload, and say what a plain ArrayDeque-based queue gives
         // up once "cancel a request from the middle" is added as a
         // requirement.
-        return -1; // replace with the correct option number
+        return 3; // replace with the correct option number
     }
 }

@@ -67,6 +67,18 @@ public class LinkedSequenceList<T> implements SequenceList<T> {
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("index: " + index);
         }
+        Node<T> newNode = new Node<>(item);
+        if (index ==0) {
+            newNode.next = head;
+            head = newNode;
+        } else {
+            Node<T> previous = node(index -1);
+            newNode.next = previous.next;
+            previous.next = newNode;
+        }
+        size++;
+    }
+            
         // TODO: implement insertion at an arbitrary position
     }
 
@@ -91,8 +103,18 @@ public class LinkedSequenceList<T> implements SequenceList<T> {
     public T remove(int index) {
         checkIndex(index);
         // TODO: implement removal at an arbitrary position
-        return null; // replace this line
-    }
+        Node<T> removed;
+            if (index ==0) {
+                removed = head
+                head = head.next;
+            } else {
+                Node<T> previous = node(index -1);
+                removed = previous.next;
+                previous.next = removed.next;
+            }
+            size--;
+            return removed.data;
+        }
 
     @Override
     public int size() {
@@ -118,6 +140,16 @@ public class LinkedSequenceList<T> implements SequenceList<T> {
      */
     public void reverseInPlace() {
         // TODO: implement in-place reversal
+        Node<T> previous = null;
+        Note<T> current = head;
+
+        while (current != null) {
+            Node<T> next = current.next;
+            current.next = previous;
+            previous = current;
+            current = next;
+        }
+        head = previous;
     }
 
     @Override

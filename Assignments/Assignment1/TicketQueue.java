@@ -60,7 +60,15 @@ public class TicketQueue {
      */
     public String serveNext() {
         // TODO: implement
-        return null; // replace this line
+        // check if waiting is empty
+        if (waiting.isEmpty()) {
+            // if nobody is waiting, throw NoSuchElementException with message
+            throw new NoSuchElementException("No customers waiting");
+        }
+        // if someone in line, update counter
+        servedCount++;
+        // retrieve and remove the next item with .poll()
+        return waiting.poll();
     }
 
     /**
@@ -75,6 +83,14 @@ public class TicketQueue {
      */
     public boolean isCustomerWaiting(String customerId) {
         // TODO: implement
-        return false; // replace this line
+        // loop through waiting, store current customerId
+        for (String id: : waiting) {
+        // if a match is found, return true
+            if (id.equals(customerId)){
+                return true
+            }
+        }
+        // otherwise return false
+        return false
     }
 }

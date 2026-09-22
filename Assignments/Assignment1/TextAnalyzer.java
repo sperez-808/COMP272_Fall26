@@ -43,8 +43,19 @@ public class TextAnalyzer {
     public static boolean isPalindrome(String input) {
         String normalized = input.toLowerCase().replaceAll("\\s+", "");
         Deque<Character> stack = new ArrayDeque<>();
-
+        //loop through normalized string, first to last
+        //push onto stack with charAt
+        for (int i = 0; i < normalized.length(); i++){
+            stack.push(normalized.charAt(i));
+        }
+        //loop through normalized string, front to back
+        //pop from stack with charAt
+        for (int i = 0; i < normalized.length(); i++){
+            if (!stack.pop().equals(normalized.charAt(i))){
+                return false
+            }
+        }
         // TODO: implement using the stack described above
-        return false; // replace this line
+        return true; // replace this line
     }
 }
