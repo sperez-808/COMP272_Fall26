@@ -11,9 +11,14 @@ public class ArithmeticExpression {
 
     private String toExpressionString(BinaryTree.Node<String> node) {
         // TODO: If node is a leaf, return its element.
+        if (node.getLeft() == null && node.getRight() == null) {
+            return node.getElement();
+        }
         // TODO: Otherwise, recursively build the left and right expressions.
+        String left = toExpressionString(node.getLeft());
+        String right = toExpressionString(node.getRight());
         // Return them as: "(" + left + " " + operator + " " + right + ")"
-        return ""; // Replace this line.
+        return "(" + left + " " + node.getElement() + " " + right + ")";
     }
 
     public static void main(String[] args) {
