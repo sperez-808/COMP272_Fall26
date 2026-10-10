@@ -43,7 +43,7 @@ public class BinarySearchTree {
                 current = current.left;
             }
         // If new value is larger, go right
-            elif (value > current.value) {
+            else if (value > current.value) {
                 current = current.right;
             }
         // If value already exists, reject duplicate, return null
@@ -55,13 +55,13 @@ public class BinarySearchTree {
         Node inserted = new Node(value, parent);
         // Attach new node to its parent on correct side
             // Smaller than parent, left, larger, right
-        if (vale < parent.value) {
+        if (value < parent.value) {
             parent.left = inserted;
         }
         else {
-            parent. right = inserted;
+            parent.right = inserted;
         }
-        return inserted
+        return inserted;
             }
     /**
      * Remove value if present.
@@ -99,7 +99,7 @@ public class BinarySearchTree {
                 current = current.left;
             }
             // larger, right
-            elif (value > current.value) {
+            else if (value > current.value) {
                 current = current.right;
             }
             // matches, found - return node
@@ -134,7 +134,7 @@ public class BinarySearchTree {
             root = child;
         }
             // If node was left child, replace it with child on the left
-        elif (parent.left == node) {
+        else if (parent.left == node) {
             parent.left = child;
         }
             // Otherwise, node was right, so replace right
