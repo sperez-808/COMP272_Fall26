@@ -120,9 +120,36 @@ public class AVLTree extends BinarySearchTree {
 
     @Override
     public boolean delete(int value) {
-        // AVL deletion also requires rebalancing.
-        throw new UnsupportedOperationException(
-            "Implement AVL deletion with rebalancing"
-        );
+        // Find node with value to remove
+        Node target = findNode(value);
+        // If no node found, false - not in tree
+        if (target == null) {
+            return false;
+        }
+        // Decide where rebalancing needs to start
+        Node rebalanceStart;
+        if (target.left != null && target.right != null){
+            // Case 1: target has 2 children
+                // Copy the in-order successor's value into target, then delete successor
+            Node successor = minimum(target.right);
+            // Overwrite target's value with successor's value
+            target.value = successor.value;
+            // Start rebalancing successor's parent, unlink successor node from tree
+            rebalanceStart = successor.parent;
+            deleteNode(successor);
+            // Case 2: target has one or no child
+                }
+            else{
+                // Rebalancing should start at target's parent, unlink target node from tree
+                rebalanceStart = target.parent;
+                deleteNode(target);
+            }
+        // Restore balance on path from removal point to root
+        // if rebalanceStart is nell, the root was removed and there's nothing to fix
+        if (rebalanceStart != null){
+            rebalanceUpward(rebalanceStart);
+        }
+        // Deletion succeeded
+        return true;
     }
 }
