@@ -13,7 +13,6 @@ import java.util.TreeSet;
  */
 public class LockerAssigner {
 
-    // TODO: declare your field(s) here.
     private final int n;
     private final TreeSet<Integer> free;
 
@@ -44,6 +43,7 @@ public class LockerAssigner {
         if (free.isEmpty()) {
             return -1;
         }
+
         // Find the nearest free lockers on each side of the preferred id
         Integer floor = free.floor(preferred);
         Integer ceiling = free.ceiling(preferred);
@@ -61,17 +61,14 @@ public class LockerAssigner {
             long floorDistance = (long) preferred - (long) floor;
             long ceilingDistance = (long) ceiling - (long) preferred;
             // Tie goes to the smaller locker, which is floor
-            if (floorDistance <= ceilingDistance) {
-                chosen = floor;
-            } else {
-                chosen = ceiling;
-            }
+            chosen = (floorDistance <= ceilingDistance) ? floor : ceiling;
         }
+
         // Mark the chosen locker as taken and return it to the caller
         free.remove(chosen);
         return chosen;
     }
-}
+
     /**
      * Make locker free again and return true. Return false (and change
      * nothing) if it is already free or is not a number in 1..n.
@@ -83,7 +80,8 @@ public class LockerAssigner {
         }
         // Put the locker back into the free pool, set.add returns true only if locker wasn't already free
         return free.add(locker);
-        }
+    }
+}
     /*
      * ======================== Exercise 3, Part B — Analysis =======================
      * Let n be the number of lockers.
