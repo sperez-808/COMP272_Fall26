@@ -170,5 +170,3 @@ public class AVLTree extends BinarySearchTree {
      * of all its ancestors stay unchanged, so no further rotations are needed above it.
      * ===============================================================================
      */
-
-}
