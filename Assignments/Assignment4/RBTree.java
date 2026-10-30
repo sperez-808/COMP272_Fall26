@@ -71,16 +71,88 @@ public class RBTree extends BinarySearchTree {
      */
     @Override
     public Node add(int value) {
-        // TODO (Exercise 2): implement red-black insertion.
-        // Hint: BinarySearchTree.add already does Step 1 and creates an RBNode.
-        //       You may add private helper methods (for example insertFixup).
-        throw new UnsupportedOperationException("Implement RB insertion");
+        // inerted = Bst-NSERT(value)
+        Node inserted = super.add(value);
+        // if inserted = NIL then return NIL
+        if (inserted == null) {
+            return null;
+        }
+        Node z = inserted;
+        // while z isn't equal to root and color parent z it'll equal red
+        while (z != root && isRed(z.parent)) {
+            Node p = z.parent;
+            Node g = p.parent;
+            if (p == g.left) {
+                Node u = g.right;
+                // if color is red, Case 1: red uncle
+                if (isRed(u)) {
+                    setColor(p, BLACK);
+                    setColor(u, BLACK);
+                    setColor(g, RED);
+                z = g;
+                } else {
+                    // if z is right p, Case 2: triangle - Left Rotate
+                    if (z == p.right) {
+                        z = p;
+                        rotateLeft(z);
+                        // p is parent and g is grandparent
+                        p = z.parent;
+                        g = p.parent;
+                }
+                // Case 3: line - Right Rotate
+                setColor(p, BLACK);
+                setColor(g, RED);
+                rotateRight(g);
+                // terminate fix-up
+                z = root;
+            }
+            } else {
+                // Mirror case: p is right grandparent
+                // u is left grandparent
+                Node u = g.left;
+                if (isRed(u)) {
+                    // Case 1: red uncle
+                    setColor(p, BLACK);
+                    setColor(u, BLACK);
+                    setColor(g, RED);
+                    z = g;
+            } else {
+                // if z = left parent
+                if (z == p.left) {
+                    // Case 2: triangle - rotate right
+                    z = p;
+                    rotateRight(z);
+                    p = z.parent;
+                    g = p.parent;
+                }
+            // Case 3: line - rotate left
+                setColor(p, BLACK);
+                setColor(g, RED);
+                rotateLeft(g);
+                z = root;
+            }
+        }
     }
+    // set the root color to black and return inserted
+    setColor(root, BLACK);
+    return inserted;
+}
 
     /*
      * ======================== Exercise 2, Part B — Analysis ========================
-     *
-     *
+     * 1.
+     * One insertion performs at most 2 rotations, but may perform O(log n) recolorings. In Case 1, the uncle is
+     * red, so we recolor the parent, uncle, and grandparent, then continue with z = grandparent. This case performs
+     * no rotations, it can repeat at each level, so there may be O(log n) recolorings. If the uncle is black, then 
+     * Case 2 or 3 apply instead. Case 2 does one rotation to turn the triangle into a line, and Case 3 does one
+     * rotation. After Case 3, the red-red violation is fixed and the loop stops, so one insertion performs at most 2
+     * rotations.
+     * 2. 
+     * Worst case running time of add is O(log n), letting n be the number of nodes, ordinary BST insertion takes O(h),
+     * where h is the height of the tree. For a red-black tree, h <= 2 log2(n + 1), so insertion is O(log n), and the
+     * fix-up loop moves upward one level per iteration. Each iteration does O(1) color changes and at most one rotation.
+     * The loop can run O(h) = O(log n) times because Case 1 may repeat upward. The rotations are O(1), so the total worst
+     * case running time is O(log n).
      * ===============================================================================
      */
 
