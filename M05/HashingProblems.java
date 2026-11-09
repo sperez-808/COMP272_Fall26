@@ -30,7 +30,7 @@ public class HashingProblems {
   // Order of the results doesn't matter
   public static ArrayList<Integer> odd(HashMap<Integer, Integer> map) {
     ArrayList<Integer> result = new ArrayList<>();
-    // Keep any key where half of key isn't 0
+    // Keep any key where the remainder of the key isn't 0
       // Also catches negative odd keys
     for (Integer key : map.keySet()) {
       if (key % 2 != 0) {
