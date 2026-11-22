@@ -1,7 +1,7 @@
 
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   Shú Perez - 002
  *
  *   Note, additional comments provided throughout this source code
  *   is for educational purposes
