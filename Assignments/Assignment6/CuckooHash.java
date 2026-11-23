@@ -247,13 +247,55 @@ public class CuckooHash<K, V> {
 	 */
 
  	public void put(K key, V value) {
+    // Compute primary and secondary hash positions
+    int pos1 = hash1(key);
+    int pos2 = hash2(key);
+    // Don't insert an exact duplicate <key, value> pair
+    if (table[pos1] != null
+            && table[pos1].getBucKey().equals(key)
+            && table[pos1].getValue().equals(value)) {
+        return;
+    }
+    // Check the second hash location for an exact duplicate
+    if (table[pos2] != null
+            && table[pos2].getBucKey().equals(key)
+            && table[pos2].getValue().equals(value)) {
+        return;
+    }
+    // Start with the incoming pair as the carried pair
+    K currentKey = key;
+    V currentValue = value;
+    // Start probing at the primary hash position
+    int pos = hash1(currentKey);
+    // Search for an empty slot that's in capacity
+    for (int i = 0; i < CAPACITY; i++) {
+        // Insert the carried pair into an empty slot
+        if (table[pos] == null) {
+            table[pos] = new Bucket<>(currentKey, currentValue);
+            return;
+        }
+        // Evict the existing bucket and place the current pair here
+        Bucket<K, V> evicted = table[pos];
+        table[pos] = new Bucket<>(currentKey, currentValue);
+        // Carry the evicted pair forward.
+        currentKey = evicted.getBucKey();
+        currentValue = evicted.getValue();
 
-		// ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME AT TOP OF FILE.
-		// Also make sure you read this method's prologue above, it should help
-		// you. Especially the two HINTS in the prologue.
-
-		return;
-	}
+        // Move the evicted pair to the alternate hash location
+        int h1 = hash1(currentKey);
+        int h2 = hash2(currentKey);
+        // Select the other hash position.
+        if (pos == h1) {
+            pos = h2;
+        } else {
+            pos = h1;
+        }
+    }
+    // Apparent cycle
+		// Grow/ rehash and retry with the evicted pair
+    rehash();
+    put(currentKey, currentValue);
+}
 
 
 	/**
