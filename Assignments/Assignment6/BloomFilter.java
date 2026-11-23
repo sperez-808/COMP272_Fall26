@@ -219,17 +219,21 @@ class BloomFilter {
      */
 
     public boolean contains(String s) {
-
-        // ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME AT TOP OF FILE
-        //
-        // HINT: the bitmap is the private class variable 'data', and it is
-        // of type BitSet (Java class BitSet). See Oracle documentation for
-        // this class on available methods. You can also see how method 'add'
-        // in this class uses the object.
-
-        return false;
+    // Loop through each hash function
+        for (int n = 0; n < noHashes; n++) {
+            // Compute hash value for current function
+            long hc = hashCode(s, n);
+            // Derive bit index from hash
+            int bitNo = (int) hc & this.hashMask;
+            // Test whether bit is unset
+            if (!data.get(bitNo)) {
+                // Unset bit means string absent
+                return false;
+            }
+        } 
+    // All bits set means string likely present
+        return true;
     }
-
 
     /*********************************
      *
